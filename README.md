@@ -7,7 +7,11 @@ and look nice.
 
 [Flask](http://flask.pocoo.org/) is a nice lightweight Python web
 framework that make simple data presentation on the web almost trivial
-and complicated presentation not too difficult.
+and complicated presentation not too difficult.  From the
+[Flask website](http://flask.pocoo.org):
+> Flask is a microframework for Python based on Werkzeug, Jinja 2 and
+> good intentions.
+and it is very pleasant to use---the "good intentions" show through.
 
 Obviously, two useful and easy things should be used together; the
 files here are an example of using them together.
@@ -17,14 +21,14 @@ Plot.ly credentials. To use this, you'll need to make a file called
 `plotly-creds.sec` in the same directory as the file
 `flask-plotly.ps`; the format of `plotly-creds.sec` is:
 ```
-plotly_username
-plotly_APIkey
+plotlyUsername
+plotlyAPIkey
 ```
 If you don't have a username and API key, you can get them for free at
 [plot.ly](http://plot.ly).
 
-If you want to run the local version by typing `python
-flask-plotly.py` You will also need to install the Flask and Plot.ly
+If you want to run the local version (by typing `python
+flask-plotly.py`) you will also need to install the Flask and Plot.ly
 Python libraries by typing, for example:
 ```
 pip install flask
