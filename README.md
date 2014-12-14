@@ -9,8 +9,10 @@ and look nice.
 framework that make simple data presentation on the web almost trivial
 and complicated presentation not too difficult.  From the
 [Flask website](http://flask.pocoo.org):
+
 > Flask is a microframework for Python based on Werkzeug, Jinja 2 and
 > good intentions.
+
 and it is very pleasant to use---the "good intentions" show through.
 
 Obviously, two useful and easy things should be used together; the
