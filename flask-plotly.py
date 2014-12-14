@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 
 from flask import Flask
+from datetime import date
 # pip install plotly
 import plotly.plotly as py
 from plotly.graph_objs import *
 
 ###### Configuration, read by app.config.from_object ######
-LISTEN_IP     = '0.0.0.0'  # 0.0.0.0 for running in Docker
+BIRTH_YEAR    = 1971
+## The ollowing is over-ridden below for non-WSGI implementation
+LISTEN_IP     = '0.0.0.0'
 LISTEN_PORT   = 5000
-CREDS_FILE    = '/var/lib/plotly-creds.sec' # for Docker
+CREDS_FILE    = '/var/lib/plotly-creds.sec'
 ###########################################################
 
 app = Flask(__name__)
@@ -48,7 +51,7 @@ def makeIframeString(data):
 def makeData():
     data = {}
     data['x'] = data['y'] = []
-    data['x'] = range(43)
+    data['x'] = range(date.today().year - app.config['BIRTH_YEAR'] + 1)
     data['y'] = [ i * i * i for i in data['x']]
     return (data)
 
@@ -82,9 +85,12 @@ if __name__ == "__main__":
     Configuration setting and reading for when running with Python's/Flask's
     internal web server; when running under WSGI this block isn't read.
     '''
-    LISTEN_IP     = ''         # set to '' for only localhost
-    CREDS_FILE    = 'plotly-creds.sec'          # for local
+    ###### Configuration, read by app.config.from_object ######
+    LISTEN_IP     = ''                    # '' == localhost
+    CREDS_FILE    = 'plotly-creds.sec'    # for local
     LISTEN_PORT   = 5001
+    ###########################################################
+
     app.config.from_object(__name__)
 
     app.run(host=app.config['LISTEN_IP'],port=app.config['LISTEN_PORT'],debug=True)
