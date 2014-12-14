@@ -70,21 +70,23 @@ def index():
     return html
 
 if __name__ == "__main__":
-
-    app.run(host=app.config['LISTEN_IP'],port=app.config['LISTEN_PORT'],debug=True)
-
-    # data = makeData()
-
     '''
     The file 'plotly-creds.sec' is a text file with your Plot.ly
     credentials in it.  The first line is your username and the
     second line is your secret key.
     '''
-    # creds=[]
-    # with open("plotly-creds.sec") as f:
-    #     creds = [x.strip('\n') for x in f.readlines()]
 
-    # py.sign_in(creds[0], creds[1])
+    creds=[]
+    with open("plotly-creds.sec") as f:
+        creds = [x.strip('\n') for x in f.readlines()]
+
+    res = py.sign_in(creds[0], creds[1])
+
+    # print "Sign_in results: ",res
+
+    app.run(host=app.config['LISTEN_IP'],port=app.config['LISTEN_PORT'],debug=True)
+
+    # data = makeData()
 
     # urlish = makeIframeString(data)
 
