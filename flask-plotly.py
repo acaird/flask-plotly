@@ -5,16 +5,21 @@ from flask import Flask
 import plotly.plotly as py
 from plotly.graph_objs import *
 
+###### Configuration, read by app.config.from_object ######
+LISTEN_IP             = '0.0.0.0'  # 0.0.0.0 for running in Docker
+LISTEN_IP             = ''         # set to '' for only localhost
+LISTEN_PORT           = 5001
+###########################################################
+
+app = Flask(__name__)
+app.config.from_object(__name__)
 
 def makeIframeString(data):
 
     trace1 = Scatter (
-        x = data['x'],
-        y = data['y'],
-        fill='tozeroy',
-        fillcolor="red",
-        opacity=0.52,
-        name="Amazing Things"
+        x = data['x'],  y = data['y'],
+        fill='tozeroy', fillcolor="red",
+        opacity=0.52,   name="Amazing Things"
     )
 
     layout = Layout(
@@ -22,15 +27,13 @@ def makeIframeString(data):
         xaxis=XAxis(
             title='My Age',
             titlefont=Font(
-                size=18,
-                color='#7f7f7f'
+                size=18, color='#7f7f7f'
             )
         ),
         yaxis=YAxis(
             title='Number of things I find amazing',
             titlefont=Font(
-                size=18,
-                color='#7f7f7f'
+                size=18, color='#7f7f7f'
             )
         )
     )
@@ -58,9 +61,19 @@ def index():
 
     flaskData = makeData()
 
+    iFrameString = makeIframeString(flaskData)
+
+    html = html + "<hr>\n";
+    html = html + iFrameString + "\n"
+    html = html + "<ht>\n";
+
+    return html
+
 if __name__ == "__main__":
 
-    data = makeData()
+    app.run(host=app.config['LISTEN_IP'],port=app.config['LISTEN_PORT'],debug=True)
+
+    # data = makeData()
 
     '''
     The file 'plotly-creds.sec' is a text file with your Plot.ly
@@ -73,6 +86,6 @@ if __name__ == "__main__":
 
     # py.sign_in(creds[0], creds[1])
 
-    urlish = makeIframeString(data)
+    # urlish = makeIframeString(data)
 
-    print urlish
+    # print urlish
