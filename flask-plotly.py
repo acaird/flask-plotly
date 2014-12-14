@@ -6,9 +6,9 @@ import plotly.plotly as py
 from plotly.graph_objs import *
 
 ###### Configuration, read by app.config.from_object ######
-LISTEN_IP             = '0.0.0.0'  # 0.0.0.0 for running in Docker
-LISTEN_IP             = ''         # set to '' for only localhost
-LISTEN_PORT           = 5001
+LISTEN_IP     = '0.0.0.0'  # 0.0.0.0 for running in Docker
+LISTEN_PORT   = 5000
+CREDS_FILE    = '/var/lib/plotly-creds.sec' # for Docker
 ###########################################################
 
 app = Flask(__name__)
@@ -57,6 +57,12 @@ def index():
     """
     Make a simple index.html page
     """
+    creds=[]
+    with open(app.config['CREDS_FILE']) as f:
+        creds = [x.strip('\n') for x in f.readlines()]
+
+    res = py.sign_in(creds[0], creds[1])
+
     html = "<h1>Amazing Things</h1>"
 
     flaskData = makeData()
@@ -70,21 +76,32 @@ def index():
     return html
 
 if __name__ == "__main__":
+
+
+    '''
+    Configuration setting and reading for when running with Python's/Flask's
+    internal web server; when running under WSGI this block isn't read.
+    '''
+    LISTEN_IP     = ''         # set to '' for only localhost
+    CREDS_FILE    = 'plotly-creds.sec'          # for local
+    LISTEN_PORT   = 5001
+    app.config.from_object(__name__)
+
+    app.run(host=app.config['LISTEN_IP'],port=app.config['LISTEN_PORT'],debug=True)
+
     '''
     The file 'plotly-creds.sec' is a text file with your Plot.ly
     credentials in it.  The first line is your username and the
     second line is your secret key.
     '''
 
-    creds=[]
-    with open("plotly-creds.sec") as f:
-        creds = [x.strip('\n') for x in f.readlines()]
+    # creds=[]
+    # with open(app.config['CREDS_FILE']) as f:
+    #     creds = [x.strip('\n') for x in f.readlines()]
 
-    res = py.sign_in(creds[0], creds[1])
+    # res = py.sign_in(creds[0], creds[1])
 
     # print "Sign_in results: ",res
-
-    app.run(host=app.config['LISTEN_IP'],port=app.config['LISTEN_PORT'],debug=True)
 
     # data = makeData()
 
