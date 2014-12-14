@@ -43,3 +43,11 @@ docker build -t "$USER/flaskly:test" .
 docker run -t -d -i -p 5000:80 $USER/flaskly:test
 ```
 then browse to http://localhost:5000 to see the web page.
+
+## The "Trick"
+
+The trick to all of this is using the `plotly.plotly.sign_in()`
+function in the right place in the code and with the right
+credentials. Everything else is sort of standard, unless you've never
+used Flask and Plot.ly and Docker before, then those parts are neat,
+too.
